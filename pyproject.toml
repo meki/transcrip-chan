@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "transcrip-chan"
+version = "0.1.0"
+description = ""
+authors = ["sashida"]
+readme = "README.md"
+packages = [{include = "transcrip_chan"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dearpygui = "^1.10.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
