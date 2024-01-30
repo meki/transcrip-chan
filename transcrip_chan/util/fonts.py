@@ -1,11 +1,20 @@
-import sys
+import os
 import dearpygui.dearpygui
+
+
+def _get_fonts_dir():
+    if os.path.isdir("./assets/fonts"):
+        return "./assets/fonts/"
+    elif os.path.isdir("./_internal/assets/fonts"):
+        return "./_internal/assets/fonts/"
+    else:
+        return ""
 
 
 class Fonts:
     def __init__(self, dpg: dearpygui.dearpygui):
         self.dpg: dearpygui.dearpygui = dpg
-        self.fonts_dir = f"{sys.path[0]}/../assets/fonts/"
+        self.fonts_dir = _get_fonts_dir()
         self.regular_font_path = self.fonts_dir + "NotoSansJP-Regular.ttf"
         self.bold_font_path = self.fonts_dir + "NotoSansJP-Bold.ttf"
 

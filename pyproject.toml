@@ -7,9 +7,9 @@ readme = "README.md"
 packages = [{include = "transcrip_chan"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<3.13"
 dearpygui = "^1.10.1"
-
+pyinstaller = "^6.3.0"
 
 [build-system]
 requires = ["poetry-core"]
