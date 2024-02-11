@@ -5,9 +5,7 @@ a = Analysis(
     ['transcrip_chan\\main.py'],
     pathex=['.\\transcrip_chan'],
     binaries=[],
-    datas=[
-        ("assets\\fonts\\*.ttf", "assets/fonts")
-    ],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

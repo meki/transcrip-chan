@@ -20,42 +20,41 @@ class AppBaseFrame ( wx.Frame ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"transcrip-chan", pos = wx.DefaultPosition, size = wx.Size( 600,400 ), style = wx.CAPTION|wx.CLOSE_BOX|wx.MINIMIZE_BOX|wx.SYSTEM_MENU|wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL, name = u"Transcrip-chan" )
 
 		self.SetSizeHints( wx.Size( 600,400 ), wx.Size( 600,400 ) )
+		self.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "BIZ UDPゴシック" ) )
 		self.SetBackgroundColour( wx.Colour( 255, 255, 255 ) )
 
 		bSizer = wx.BoxSizer( wx.VERTICAL )
 
-		self.titleText = wx.StaticText( self, wx.ID_ANY, u"トランスクリプちゃん", wx.DefaultPosition, wx.Size( 600,-1 ), wx.ALIGN_CENTER_HORIZONTAL )
+		self.titleText = wx.StaticText( self, wx.ID_ANY, u"文字起こし君", wx.DefaultPosition, wx.Size( 600,-1 ), wx.ALIGN_CENTER_HORIZONTAL )
 		self.titleText.Wrap( -1 )
 
-		self.titleText.SetFont( wx.Font( 28, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.titleText.SetFont( wx.Font( 28, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "BIZ UDPゴシック" ) )
 
 		bSizer.Add( self.titleText, 0, wx.ALL, 5 )
+
+		radioBoxModelsChoices = [ u"小", u"中", u"大" ]
+		self.radioBoxModels = wx.RadioBox( self, wx.ID_ANY, u"モデル選択（右ほど遅くて正確）", wx.Point( -1,-1 ), wx.DefaultSize, radioBoxModelsChoices, 4, wx.RA_SPECIFY_COLS )
+		self.radioBoxModels.SetSelection( 0 )
+		self.radioBoxModels.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "BIZ UDPゴシック" ) )
+		self.radioBoxModels.SetToolTip( u"大きなモデルほどメモリ、ディスク容量が必要です。エラーが発生した場合は小さなメモリを選択してみてください。" )
+
+		bSizer.Add( self.radioBoxModels, 0, wx.ALIGN_CENTER, 5 )
 
 		gSizer1 = wx.GridSizer( 0, 1, 0, 0 )
 
 		self.parentPanel = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.BORDER_SIMPLE|wx.TAB_TRAVERSAL )
 		self.parentPanel.DragAcceptFiles( True )
 
-		gSizer2 = wx.GridSizer( 3, 3, 0, 0 )
+		gSizer2 = wx.GridSizer( 1, 1, 0, 0 )
 
-
-		gSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-		gSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-		gSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-		gSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-		self.dropText = wx.StaticText( self.parentPanel, wx.ID_ANY, u"ここにファイルをドロップ", wx.DefaultPosition, wx.Size( 200,30 ), wx.ALIGN_CENTER_HORIZONTAL )
+		self.dropText = wx.StaticText( self.parentPanel, wx.ID_ANY, u"ここにファイルをドロップ", wx.DefaultPosition, wx.Size( 550,-1 ), wx.ALIGN_CENTER_HORIZONTAL )
 		self.dropText.Wrap( -1 )
 
-		self.dropText.SetFont( wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.dropText.SetFont( wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "BIZ UDPゴシック" ) )
+		self.dropText.SetMinSize( wx.Size( 550,60 ) )
+		self.dropText.SetMaxSize( wx.Size( 550,300 ) )
 
-		gSizer2.Add( self.dropText, 0, wx.ALL, 5 )
+		gSizer2.Add( self.dropText, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
 
 
 		self.parentPanel.SetSizer( gSizer2 )
@@ -75,6 +74,8 @@ class AppBaseFrame ( wx.Frame ):
 		gSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
 		self.buttonStart = wx.Button( self, wx.ID_ANY, u"文字起こし開始", wx.DefaultPosition, wx.Size( 200,50 ), 0 )
+		self.buttonStart.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, "BIZ UDPゴシック" ) )
+
 		gSizer3.Add( self.buttonStart, 0, wx.ALL, 5 )
 
 
