@@ -9,5 +9,5 @@ poetry run python ./transcrip_chan/main.py
 ## Create executable
 
 ```bash
-poetry run pyinstaller main.spec
+poetry run pyinstaller transcrip_chan.spec --noconfirm
 ```

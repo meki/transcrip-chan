@@ -2,6 +2,7 @@ import os
 import wx
 from ui.user_interface import AppBaseFrame
 import whisper
+import logging
 
 
 def format_segment(segment):
@@ -9,7 +10,6 @@ def format_segment(segment):
     start_hour, start_min, start_sec, start_msec = map(
         int, (start / 3600, (start % 3600) / 60, start % 60, (start % 1) * 1000))
     end = segment["end"]
-    print(f"start: {start} -> end: {end}")
     end_hour, end_min, end_sec, end_msec = map(
         int, (end / 3600, (end % 3600) / 60, end % 60, (end % 1) * 1000))
     text = segment["text"]
@@ -29,8 +29,7 @@ class AppFrame(AppBaseFrame):
                 "文字起こしするファイルが選択されていません。ファイルをドロップしてください。", "エラー", wx.OK | wx.ICON_ERROR)
             return
 
-        out_dir = os.path.join(os.path.expanduser(
-            "~"), "Desktop", f"文字起こし")
+        out_dir = "./文字起こし"
 
         try:
             if not os.path.exists(out_dir):
@@ -40,9 +39,13 @@ class AppFrame(AppBaseFrame):
                 f"出力先フォルダの作成に失敗しました。\r\n{e}", "エラー", wx.OK | wx.ICON_ERROR)
             return
 
+        # initialize logging, output path = transcrip_chan.log
+        logging.basicConfig(filename=os.path.join(out_dir, "transcrip_chan.log"),
+                            level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
         error_count = 0
         for idx, selected_file in enumerate(selected_files):
-            print(
+            logging.info(
                 f"selected_file: {selected_file} ({idx+1}/{len(selected_files)})")
 
             try:
@@ -56,25 +59,29 @@ class AppFrame(AppBaseFrame):
                     f"{filename} を文字起こし中...({len(selected_files)} 個中 {idx+1} 個目)\r\n時間がかかりますのでしばらくお待ち下さい。 \r\n（「応答なし⌛」になっても処理は進んでいるので気長にどうぞ）")
                 model = whisper.load_model(
                     name=model_name, download_root="./models")
+
+                logging.info(
+                    f"model: {model}\nselected_file: {selected_file}\nstart transcribe...")
                 result = whisper.transcribe(model=model, audio=selected_file)
 
                 segments = result["segments"]
 
                 transcribe_text = "\n".join(format_segment(segment)
                                             for segment in segments)
-                print(transcribe_text)
+                logging.info(f"transcribe_text: {transcribe_text}")
 
                 out_file_path = os.path.join(
                     out_dir, f"文字起こし_{filename_wo_ext}.txt")
 
                 with open(out_file_path, "w", encoding="utf-8") as f:
                     f.write(transcribe_text)
-                print(f"Transcription saved to {out_file_path}")
+                logging.info(f"Transcription saved to {out_file_path}")
             except Exception as e:
                 out_file_path = os.path.join(
                     out_dir, f"文字起こし_{filename_wo_ext}.txt")
                 with open(out_file_path, "w", encoding="utf-8") as f:
                     f.write(f"文字起こし中にエラーが発生しました。\n\nエラー詳細:\n{e}")
+                logging.exception(e)
                 error_count += 1
 
         self.selected_files = []
@@ -98,12 +105,14 @@ class AppFrame(AppBaseFrame):
 
     def get_selected_model(self):
         model_lebel = self.radioBoxModels.GetStringSelection()
-        if model_lebel == "小":
+        if model_lebel == "極小":
+            return "base"
+        elif model_lebel == "小":
             return "small"
         elif model_lebel == "中":
             return "medium"
         elif model_lebel == "大":
-            return "large-v2"
+            return "large"
         else:
             return "small"
 

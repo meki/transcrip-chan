@@ -143,7 +143,7 @@
             <property name="caption"></property>
             <property name="caption_visible">1</property>
             <property name="center_pane">0</property>
-            <property name="choices">&quot;小&quot; &quot;中&quot; &quot;大&quot;</property>
+            <property name="choices">&quot;極小&quot; &quot;小&quot; &quot;中&quot; &quot;大&quot;</property>
             <property name="close_button">1</property>
             <property name="context_help"></property>
             <property name="context_menu">1</property>
@@ -182,7 +182,7 @@
             <property name="style">wxRA_SPECIFY_COLS</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="toolbar_pane">0</property>
-            <property name="tooltip">大きなモデルほどメモリ、ディスク容量が必要です。エラーが発生した場合は小さなメモリを選択してみてください。</property>
+            <property name="tooltip">大きなモデルほどメモリ、ディスク容量が必要です。エラーが発生した場合は小さなモデルを選択してみてください。</property>
             <property name="validator_data_type"></property>
             <property name="validator_style">wxFILTER_NONE</property>
             <property name="validator_type">wxDefaultValidator</property>
