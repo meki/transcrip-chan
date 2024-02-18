@@ -12,6 +12,8 @@ pyinstaller = "^6.3.0"
 wxpython = "^4.2.1"
 pywin32 = "^306"
 openai-whisper = {git = "https://github.com/openai/whisper.git"}
+torch = "^2.2.0"
+faster-whisper = "^0.10.0"
 
 [build-system]
 requires = ["poetry-core"]
