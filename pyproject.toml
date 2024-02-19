@@ -2,7 +2,7 @@
 name = "transcrip-chan"
 version = "0.1.0"
 description = ""
-authors = ["sashida"]
+authors = ["Satoshi Sashida"]
 readme = "README.md"
 packages = [{include = "transcrip_chan"}]
 

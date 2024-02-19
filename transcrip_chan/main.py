@@ -1,4 +1,5 @@
 import os
+import sys
 import wx
 from ui.user_interface import AppBaseFrame
 from faster_whisper import WhisperModel
@@ -27,9 +28,6 @@ def init_logger(out_dir, logger_name, log_file_name):
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
     return logger
-
-
-logger = init_logger(out_dir, 'transcrip_chan_logger', 'transcrip_chan.log')
 
 
 def get_device_settings() -> tuple[str, str]:
@@ -64,15 +62,6 @@ class AppFrame(AppBaseFrame):
             return
 
         try:
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
-        except Exception as e:
-            wx.MessageBox(
-                f"出力先フォルダの作成に失敗しました。\r\n{e}", "エラー", wx.OK | wx.ICON_ERROR)
-            logger.exception(e)
-            return
-
-        try:
             if not os.path.exists(model_dir):
                 os.makedirs(model_dir)
             model_name = self.get_selected_model()
@@ -103,6 +92,9 @@ class AppFrame(AppBaseFrame):
             try:
                 filename = os.path.basename(selected_file)
                 filename_wo_ext = os.path.splitext(filename)[0]
+
+                self.Refresh()
+                self.Update()
 
                 self.update_drop_text(
                     f"{filename} を文字起こし中...({len(selected_files)} 個中 {idx+1} 個目)\r\n時間がかかりますのでしばらくお待ち下さい。 \r\n（「応答なし⌛」になっても処理は進んでいるので気長にどうぞ）")
@@ -171,6 +163,16 @@ class AppFrame(AppBaseFrame):
 
 
 if __name__ == '__main__':
+    try:
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+    except Exception as e:
+        wx.MessageBox(
+            f"出力先フォルダの作成に失敗しました。\r\n{e}", "エラー", wx.OK | wx.ICON_ERROR)
+        sys.exit(1)
+    logger = init_logger(out_dir, 'transcrip_chan_logger',
+                         'transcrip_chan.log')
+
     app = wx.App(False)
     frame = AppFrame(None)
     frame.Show(True)
